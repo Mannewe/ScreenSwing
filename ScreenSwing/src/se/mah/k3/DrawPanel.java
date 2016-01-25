@@ -23,10 +23,14 @@ public class DrawPanel extends JPanel {
 	Font font = new Font("Verdana", Font.BOLD, 20);
 	
 	public DrawPanel() {
-		myFirebaseRef = new Firebase("https://blinding-heat-7399.firebaseio.com/");
+		//creates firebase
+		myFirebaseRef = new Firebase("https://pingispong.firebaseio.com/");
+		
 		myFirebaseRef.removeValue(); //Cleans out everything
 		myFirebaseRef.child("ScreenNbr").setValue(Constants.screenNbr);  //Has to be same as on the app. So place specific can't you see the screen you don't know the number
-		 myFirebaseRef.addChildEventListener(new ChildEventListener() {
+		
+		
+		myFirebaseRef.addChildEventListener(new ChildEventListener() {
 			@Override
 			public void onChildRemoved(DataSnapshot arg0) {}
 			
@@ -40,6 +44,7 @@ public class DrawPanel extends JPanel {
 				Collections.sort(users);
 				int place = Collections.binarySearch(users, new User(arg0.getKey(),0,0)); //Find the user usernama has to be unique uses the method compareTo in User
 				 for (DataSnapshot dataSnapshot : dsList) {					 
+					//Fetching information from firebase and applies them to player
 					 if (dataSnapshot.getKey().equals("xRel")){
 						 users.get(place).setxRel((double)dataSnapshot.getValue());
 					 }
